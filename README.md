@@ -1,4 +1,4 @@
-# testng-browserstack
+# testng-browserstack for testing
 
 [TestNG](http://testng.org) Integration with BrowserStack.
 
