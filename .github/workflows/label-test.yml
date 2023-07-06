@@ -21,11 +21,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    # - name: add label
-    #     uses: actions-ecosystem/action-add-labels@v1
-    #     if: ${{ startsWith(github.event.comment.body, '/add-labels') }}
-    #     with:
-    #       labels: lock
     - name: Fetch Commit SHA
       run: |
         git log -1 --format='%H'
