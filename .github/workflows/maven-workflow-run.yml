@@ -6,7 +6,7 @@ name: TestNG SDK Test workflow for Maven on workflow_dispatch
 on:
   workflow_dispatch:
     inputs:
-      commid_sha:
+      commit_sha:
         description: 'The commit id to build'
         required: true
 
