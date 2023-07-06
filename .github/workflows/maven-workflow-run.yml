@@ -26,8 +26,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      #   with:
-      #     ref: refs/${{ github.event.inputs.commit_id }}/head
+        with:
+          ref: refs/${{ github.event.inputs.commit_sha }}
       # - name: Fetch Commit SHA
       #   run: |
       #     git log -1 --format='%H'
