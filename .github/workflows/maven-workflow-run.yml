@@ -26,7 +26,9 @@ jobs:
 
     steps:
       - name: Commit SHA
-        run: echo ${{ github.event.inputs.commit_sha }}
+        run: |
+            echo "commit_sha=${{ github.event.inputs.commit_sha }}" >> $GITHUB_ENV
+            echo "commit_sha=${{ github.event.inputs.commit_sha }}" >> $env:GITHUB_ENV
       - uses: actions/checkout@v3
         with:
           ref: ${{ github.event.inputs.commit_sha }}
@@ -41,7 +43,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               name: process.env.job_name,
-              head_sha: ${{ github.event.inputs.commit_sha }},
+              head_sha: process.env.commit_sha,
               status: 'in_progress'
             }).catch((err) => ({status: err.status, response: err.response}));
             console.log(`The status-check response : ${result.status} Response : ${JSON.stringify(result.response)}`)
@@ -78,7 +80,7 @@ jobs:
             owner: context.repo.owner,
             repo: context.repo.repo,
             name: process.env.job_name,
-            head_sha: ${{ github.event.inputs.commit_sha }},
+            head_sha: process.env.commit_sha,
             status: 'completed',
             conclusion: process.env.conclusion
             }).catch((err) => ({status: err.status, response: err.response}));
