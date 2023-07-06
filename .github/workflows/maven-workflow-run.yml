@@ -6,8 +6,8 @@ name: TestNG SDK Test workflow for Maven on workflow_dispatch
 on:
   workflow_dispatch:
     inputs:
-      commit_sha:
-        description: 'The commit id to build'
+      pull_request_number:
+        description: 'The pull request number to build'
         required: true
 
 jobs:
@@ -27,10 +27,12 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          ref: ${{ github.event.inputs.commit_sha }}
-      - name: Commit SHA
+          ref: refs/pull/${{ github.event.inputs.pull_request_number }}/head
+      - name: Fetch Commit SHA
         run: |
-            echo "commit_sha=${{ github.event.inputs.commit_sha }}" >> $env:GITHUB_ENV
+          git log -1 --format='%H'
+          echo "commit_sha=$(git log -1 --format='%H')" >> $GITHUB_ENV
+          echo "commit_sha=$(git log -1 --format='%H')" >> $env:GITHUB_ENV
       - uses: actions/github-script@98814c53be79b1d30f795b907e553d8679345975
         id: status-check-in-progress
         env:
@@ -42,7 +44,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               name: process.env.job_name,
-              head_sha: ${{ github.event.inputs.commit_sha }},
+              head_sha: process.env.commit_sha,
               status: 'in_progress'
             }).catch((err) => ({status: err.status, response: err.response}));
             console.log(`The status-check response : ${result.status} Response : ${JSON.stringify(result.response)}`)
@@ -79,7 +81,7 @@ jobs:
             owner: context.repo.owner,
             repo: context.repo.repo,
             name: process.env.job_name,
-            head_sha: ${{ github.event.inputs.commit_sha }},
+            head_sha: process.env.commit_sha,
             status: 'completed',
             conclusion: process.env.conclusion
             }).catch((err) => ({status: err.status, response: err.response}));
