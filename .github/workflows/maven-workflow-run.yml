@@ -44,7 +44,10 @@ jobs:
               head_sha: ${{ github.event.inputs.commit_sha }},
               status: 'in_progress'
             }).catch((err) => ({status: err.status, response: err.response}));
+            echo ${{ github.event.inputs.commit_sha }}
+            echo err
             console.log(`The status-check response : ${result.status} Response : ${JSON.stringify(result.response)}`)
+            echo ${{ github.event.inputs.commit_sha }}
             if (result.status !== 201) {
               console.log('Failed to create check run')
             }
