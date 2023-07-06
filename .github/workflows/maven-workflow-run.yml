@@ -40,7 +40,6 @@ jobs:
         with:
           github-token: ${{ github.token }}
           script: |
-            echo process.env.commit_sha
             const result = await github.rest.checks.create({
               owner: context.repo.owner,
               repo: context.repo.repo,
