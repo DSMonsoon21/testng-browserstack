@@ -43,7 +43,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               name: process.env.job_name,
-              head_sha: ${{ github.event.inputs.commit_sha }},
+              head_sha:process.env.commit_sha,
               status: 'in_progress'
             }).catch((err) => ({status: err.status, response: err.response}));
             console.log(`The status-check response : ${result.status} Response : ${JSON.stringify(result.response)}`)
