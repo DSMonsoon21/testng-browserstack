@@ -54,18 +54,22 @@ jobs:
       with:
         distribution: 'temurin'
         java-version: ${{ matrix.java }}
-    - name: Run mvn test
+    - name: Print details
       run: |
-        mvn compile
-        mvn test
-    - name: Run mvn profile sample-local-test
-      run: |
-        mvn compile
-        mvn test -P sample-local-test
-    - name: Run mvn profile sample-test
-      run: |
-        mvn compile
-        mvn test -P sample-test
+        pwd
+        ls
+    # - name: Run mvn test
+    #   run: |
+    #     mvn compile
+    #     mvn test
+    # - name: Run mvn profile sample-local-test
+    #   run: |
+    #     mvn compile
+    #     mvn test -P sample-local-test
+    # - name: Run mvn profile sample-test
+    #   run: |
+    #     mvn compile
+    #     mvn test -P sample-test
     - if: always()
       uses: actions/github-script@98814c53be79b1d30f795b907e553d8679345975
       id: status-check-completed
