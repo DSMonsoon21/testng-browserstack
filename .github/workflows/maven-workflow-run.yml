@@ -29,7 +29,7 @@ jobs:
         run: echo ${{ github.event.inputs.commit_sha }}
       - uses: actions/checkout@v3
         with:
-          ref: ${{ github.event.inputs.commit_sha }}/head
+          ref: ${{ github.event.inputs.commit_sha }}
       - uses: actions/github-script@98814c53be79b1d30f795b907e553d8679345975
         id: status-check-in-progress
         env:
