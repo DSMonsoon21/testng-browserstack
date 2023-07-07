@@ -25,13 +25,12 @@ jobs:
       BROWSERSTACK_ACCESS_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
 
     steps:
-      - name: Commit SHA
-        run: |
-            echo "commit_sha=${{ github.event.inputs.commit_sha }}" >> $GITHUB_ENV
-            echo "commit_sha=${{ github.event.inputs.commit_sha }}" >> $env:GITHUB_ENV
       - uses: actions/checkout@v3
         with:
           ref: ${{ github.event.inputs.commit_sha }}
+      - name: Commit SHA
+        env:
+          COMMIT_SHA: ${{ github.event.inputs.commit_sha }}
       - uses: actions/github-script@98814c53be79b1d30f795b907e553d8679345975
         id: status-check-in-progress
         env:
@@ -43,7 +42,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               name: process.env.job_name,
-              head_sha: process.env.commit_sha,
+              head_sha: $COMMIT_SHA,
               status: 'in_progress'
             }).catch((err) => ({status: err.status, response: err.response}));
             console.log(`The status-check response : ${result.status} Response : ${JSON.stringify(result.response)}`)
@@ -80,7 +79,7 @@ jobs:
             owner: context.repo.owner,
             repo: context.repo.repo,
             name: process.env.job_name,
-            head_sha: process.env.commit_sha,
+            head_sha: $COMMIT_SHA,
             status: 'completed',
             conclusion: process.env.conclusion
             }).catch((err) => ({status: err.status, response: err.response}));
